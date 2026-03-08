@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결혼준비도 자가점검</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #fff5f7 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.15);
+            overflow: hidden;
+        }
+
+        /* 웰컴 페이지 */
+        .welcome-page {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 80px;
+            margin-bottom: 30px;
+            line-height: 1;
+        }
+
+        .welcome-page h1 {
+            color: #ff69b4;
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .welcome-page .subtitle {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .welcome-text {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .welcome-text p {
+            margin-bottom: 16px;
+        }
+
+        .guide-box {
+            background: #fff5f7;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .guide-box h3 {
+            color: #ff69b4;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .guide-box ul {
+            list-style: none;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .guide-box li {
+            margin-bottom: 8px;
+        }
+
+        .guide-box li::before {
+            content: "• ";
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        .scale-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .scale-item {
+            text-align: center;
+        }
+
+        .scale-emoji {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* 버튼 */
+        .btn {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff85c0 100%);
+            color: white;
+            border: none;
+            padding: 18px 48px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* 질문 페이지 */
+        .question-page {
+            padding: 40px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff69b4 0%, #ff85c0 100%);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .question-card {
+            margin-bottom: 40px;
+        }
+
+        .question-number {
+            color: #ff69b4;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f8f8f8;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            border-color: #ffb6d9;
+            background: #fff5f7;
+        }
+
+        .option.selected {
+            border-color: #ff69b4;
+            background: #fff5f7;
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .option.selected .option-radio {
+            border-color: #ff69b4;
+        }
+
+        .option.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            border-radius: 50%;
+        }
+
+        .option-text {
+            flex: 1;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .option-score {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff85c0 100%);
+            color: white;
+            flex: 2;
+        }
+
+        .btn-nav {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(255, 105, 180, 0.3);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 결과 페이지 */
+        .result-page {
+            padding: 60px 40px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .result-score {
+            font-size: 64px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff69b4 0%, #ff85c0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .result-total {
+            color: #999;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .result-title {
+            color: #333;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .result-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .result-description p {
+            margin-bottom: 16px;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #ff69b4 0%, #ff85c0 100%);
+            border-radius: 16px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .cta-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .cta-text {
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .btn-cta {
+            background: white;
+            color: #ff69b4;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-restart {
+            background: #f0f0f0;
+            color: #666;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-restart:hover {
+            background: #e0e0e0;
+        }
+
+        /* 반응형 */
+        @media (max-width: 640px) {
+            .container {
+                border-radius: 0;
+            }
+
+            .welcome-page {
+                padding: 40px 24px;
+            }
+
+            .welcome-page h1 {
+                font-size: 28px;
+            }
+
+            .question-page {
+                padding: 24px;
+            }
+
+            .result-page {
+                padding: 40px 24px;
+            }
+
+            .scale-info {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .btn-secondary, .btn-primary {
+                flex: 1;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 웰컴 페이지 -->
+        <div class="welcome-page" id="welcomePage">
+            <div class="logo">😊💗😊</div>
+            <h1>결혼준비도 자가점검</h1>
+            <p class="subtitle">우리, 준비됐을까?</p>
+            
+            <div class="welcome-text">
+                <p>안녕하세요! 👋</p>
+                <p>결혼, 잘 준비하고 계신가요?<br>
+                사랑하는 사람과의 미래가 설레면서도<br>
+                한편으로는 "우리 정말 준비됐을까?" 하는<br>
+                작은 궁금증이 생기기도 하죠.</p>
+                <p>20개의 간단한 질문으로<br>
+                지금 우리의 모습을 가볍게 점검해보세요.</p>
+                <p>부담 갖지 마세요.<br>
+                완벽할 필요는 없으니까요 💗</p>
+            </div>
+
+            <div class="guide-box">
+                <h3>📋 진단 안내</h3>
+                <ul>
+                    <li>총 20문항, 약 3분 소요돼요</li>
+                    <li>각 질문에 솔직하게 답해주세요</li>
+                    <li>정답은 없어요. 지금 이 순간의 나를 체크하는 거예요</li>
+                </ul>
+                <div class="scale-info">
+                    <div class="scale-item">
+                        <span class="scale-emoji">⭐️</span>
+                        <div>그렇다 (5점)</div>
+                    </div>
+                    <div class="scale-item">
+                        <span class="scale-emoji">⚡️</span>
+                        <div>가끔 그렇다 (2점)</div>
+                    </div>
+                    <div class="scale-item">
+                        <span class="scale-emoji">❌</span>
+                        <div>아니다 (0점)</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="startTest()">진단 시작하기!</button>
+        </div>
+
+        <!-- 질문 페이지 -->
+        <div class="question-page" id="questionPage">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">1 / 20</div>
+
+            <div class="question-card" id="questionCard"></div>
+
+            <div class="nav-buttons">
+                <button class="btn-nav btn-secondary" id="prevBtn" onclick="prevQuestion()">이전</button>
+                <button class="btn-nav btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>다음</button>
+            </div>
+        </div>
+
+        <!-- 결과 페이지 -->
+        <div class="result-page" id="resultPage">
+            <div class="result-emoji" id="resultEmoji"></div>
+            <div class="result-score" id="resultScore"></div>
+            <div class="result-total">총 100점</div>
+            <h2 class="result-title" id="resultTitle"></h2>
+            <div class="result-description" id="resultDescription"></div>
+            
+            <div class="cta-box">
+                <div class="cta-title" id="ctaTitle"></div>
+                <div class="cta-text" id="ctaText"></div>
+                <button class="btn-cta" onclick="contactKakao()">1:1 카톡 상담 신청</button>
+            </div>
+
+            <button class="btn-restart" onclick="restart()">다시 진단하기</button>
+        </div>
+    </div>
+
+    <script>
+        // 질문 데이터
+        const questions = [
+            "나는 내가 어떤 상황에서 기분이 좋아지고 나빠지는지 알고 있다",
+            "화가 나도 상대방을 공격하지 않고 내 감정을 표현할 수 있다",
+            "우리 둘의 의견이 다를 때, 이기려 하기보다 함께 답을 찾으려 한다",
+            "내 과거의 실수나 아픈 기억도 파트너와 편하게 나눌 수 있다",
+            "10년 후 내가 어떻게 살고 싶은지 파트너에게 솔직하게 말할 수 있다",
+            "내가 한 말과 약속은 지키려고 노력하는 편이다",
+            "힘들 때 나만의 스트레스 해소 방법(운동, 취미 등)이 있다",
+            "파트너 없이도 나 혼자 감정적으로나 경제적으로 괜찮을 수 있다",
+            "나는 내 원가족(부모, 형제)과의 관계가 대체로 건강하다고 생각한다",
+            "파트너가 말할 때 내 할 말을 준비하기보다 진심으로 듣는다",
+            "일상의 작은 실수나 불편함도 웃으며 넘길 수 있다",
+            "처음 보는 사람들에게 존중하며 대한다",
+            "내 부족한 점을 인정하고 조금씩 나아지려고 노력한다",
+            "돈을 쓸 때와 모을 때를 구분할 수 있고, 함께 재정 계획을 세울 수 있다",
+            "파트너의 피드백을 들었을 때 방어하기보다 생각해보려 한다",
+            "같은 문제도 사람마다 다른 해결책이 있을 수 있다는 걸 인정한다",
+            "화가 나도 '헤어지자', '끝이야' 같은 극단적인 말은 하지 않는다",
+            "파트너가 못하는 것을 탓하기보다 내가 도울 방법을 생각한다",
+            "중요한 가치관이 다를 때도 서로 이해하고 중간 지점을 찾을 수 있다",
+            "특별한 일이 없어도 함께 있는 평범한 시간이 좋다"
+        ];
+
+        const options = [
+            { text: "그렇다", emoji: "⭐️", score: 5 },
+            { text: "가끔 그렇다", emoji: "⚡️", score: 2 },
+            { text: "아니다", emoji: "❌", score: 0 }
+        ];
+
+        // 상태 관리
+        let currentQuestion = 0;
+        let answers = new Array(20).fill(null);
+
+        // 질문 렌더링
+        function renderQuestion() {
+            const questionCard = document.getElementById('questionCard');
+            const question = questions[currentQuestion];
+
+            questionCard.innerHTML = `
+                <div class="question-number">질문 ${currentQuestion + 1}</div>
+                <div class="question-text">${question}</div>
+                <div class="options">
+                    ${options.map((option, index) => `
+                        <div class="option ${answers[currentQuestion] === option.score ? 'selected' : ''}" 
+                             onclick="selectOption(${option.score})">
+                            <div class="option-radio"></div>
+                            <span class="option-text">${option.emoji} ${option.text}</span>
+                            <span class="option-score">${option.score}점</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            updateProgress();
+            updateButtons();
+        }
+
+        // 옵션 선택
+        function selectOption(score) {
+            answers[currentQuestion] = score;
+            renderQuestion();
+        }
+
+        // 진행률 업데이트
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${currentQuestion + 1} / ${questions.length}`;
+        }
+
+        // 버튼 상태 업데이트
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.disabled = answers[currentQuestion] === null;
+
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.textContent = '결과 확인하기!';
+            } else {
+                nextBtn.textContent = '다음';
+            }
+        }
+
+        // 다음 질문
+        function nextQuestion() {
+            if (answers[currentQuestion] === null) return;
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // 이전 질문
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        // 테스트 시작
+        function startTest() {
+            document.getElementById('welcomePage').classList.add('hidden');
+            document.getElementById('questionPage').style.display = 'block';
+            renderQuestion();
+        }
+
+        // 결과 계산 및 표시
+        function showResult() {
+            const totalScore = answers.reduce((sum, score) => sum + score, 0);
+            
+            document.getElementById('questionPage').style.display = 'none';
+            document.getElementById('resultPage').style.display = 'block';
+            
+            document.getElementById('resultScore').textContent = totalScore + '점';
+
+            let emoji, title, description, ctaTitle, ctaText;
+
+            if (totalScore >= 90) {
+                emoji = '🎉';
+                title = '완벽한 준비 완료!';
+                description = `<p>두 분은 건강한 관계를 위한 기본기가 탄탄하게 갖춰져 있어요. 자기 자신을 잘 알고, 서로를 존중하며, 갈등을 건설적으로 풀어갈 준비가 되어 있습니다.</p><p>앞으로도 지금처럼 서로를 배려하고 성장하는 파트너십을 유지하세요. 결혼 생활에서 예상치 못한 어려움이 와도 함께 잘 헤쳐나갈 수 있을 거예요.</p>`;
+                ctaTitle = '더 깊은 대화가 필요하다면';
+                ctaText = '언제든지 편하게 연락주세요';
+            } else if (totalScore >= 70) {
+                emoji = '💕';
+                title = '좋은 출발선에 서 있어요';
+                description = `<p>전반적으로 건강한 관계 마인드를 갖추고 있어요. 몇 가지 영역에서 보완이 필요하지만, 이미 좋은 기반 위에 있습니다.</p><p>점수가 낮았던 항목들을 파트너와 함께 살펴보고 대화를 나눠보세요. 서로의 차이를 이해하고 존중하면서 함께 성장할 수 있는 좋은 기회가 될 거예요.</p>`;
+                ctaTitle = '부족한 부분, 어떻게 채울까요?';
+                ctaText = '맞춤 상담으로 구체적인 방법을 알려드려요';
+            } else if (totalScore >= 50) {
+                emoji = '🌱';
+                title = '함께 성장할 시간이 필요해요';
+                description = `<p>결혼 생활을 위해 더 준비하고 다듬어야 할 부분들이 보입니다. 하지만 이건 부끄러운 일이 아니에요. 지금이 바로 나 자신과 우리 관계를 돌아볼 좋은 타이밍입니다.</p><p>낮은 점수를 받은 항목들을 중심으로 솔직한 대화를 나누고, 천천히 함께 성장하세요. 결혼 전에 이런 부분을 발견한 건 오히려 큰 행운입니다.</p>`;
+                ctaTitle = '지금 시작하면 충분히 달라져요';
+                ctaText = '전문 코치와 함께 차근차근 준비해보세요';
+            } else if (totalScore >= 30) {
+                emoji = '🤔';
+                title = '좀 더 신중한 접근이 필요해요';
+                description = `<p>현재 상태로는 결혼 생활에 어려움을 겪을 가능성이 있어 보입니다. 이건 결혼하면 안 된다는 뜻이 아니라, 결혼 전에 반드시 짚고 넘어가야 할 것들이 있다는 신호예요.</p><p>특히 점수가 낮은 항목들에 주목하세요. 커플 코칭이나 상담을 통해 구체적인 개선 방법을 찾아보는 것을 권장합니다. 시간을 갖고 차근차근 준비하세요.</p>`;
+                ctaTitle = '결혼 전 지금이 가장 중요한 시기예요';
+                ctaText = '전문가의 도움으로 함께 준비해보세요';
+            } else {
+                emoji = '💭';
+                title = '전문가의 도움을 고려해보세요';
+                description = `<p>지금은 결혼을 서두르기보다 나 자신과 우리 관계를 돌아볼 시간이 필요합니다. 자기 이해, 감정 조절, 갈등 해결 방식 등 관계의 기본 역량을 먼저 키우는 것이 중요해요.</p><p>전문 상담사나 코치의 도움을 받아 체계적으로 준비하세요. 서두르지 않는 것이 서로를 위한 진짜 사랑이며, 지금 시간을 투자하는 것이 평생의 행복을 위한 가장 현명한 선택입니다.</p>`;
+                ctaTitle = '아직 늦지 않았어요';
+                ctaText = '전문 코치가 길을 함께 찾아드릴게요';
+            }
+
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultDescription').innerHTML = description;
+            document.getElementById('ctaTitle').textContent = ctaTitle;
+            document.getElementById('ctaText').textContent = ctaText;
+
+            // 페이지 맨 위로 스크롤
+            window.scrollTo(0, 0);
+        }
+
+        // 카톡 상담
+        function contactKakao() {
+            window.open('https://open.kakao.com/o/sSXdQkZe', '_blank');
+        }
+
+        // 다시 시작
+        function restart() {
+            currentQuestion = 0;
+            answers = new Array(20).fill(null);
+            
+            document.getElementById('resultPage').style.display = 'none';
+            document.getElementById('welcomePage').classList.remove('hidden');
+            
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
